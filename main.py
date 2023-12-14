@@ -43,6 +43,7 @@ def search_for_artist(token, artist_name):
     if len(json_result) == 0:
         print("No artist with this name exists.")
         return None
+    
     return json_result[0]
 
 def get_songs_by_artist(token, artist_id):
@@ -56,13 +57,18 @@ token = get_token()
 
 while True:
     artist = input("Artist: ")
+    if artist == "":
+        continue
     result = search_for_artist(token, artist)
+    if result == None:
+        continue
+    
     artist_id = result["id"]
     artist = result["name"]
     songs = get_songs_by_artist(token, artist_id)
 
     # print top 10 songs
-    print(artist)
+    print(f"Top 10 {artist} tracks")
     for idx, song in enumerate(songs):
         print(f"{idx + 1}. {song['name']}")
 
