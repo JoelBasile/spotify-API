@@ -41,7 +41,7 @@ def search_for_artist(token, artist_name):
     json_result = json.loads(result.content)["artists"]["items"]
 
     if len(json_result) == 0:
-        print("No arist with this name exists.")
+        print("No artist with this name exists.")
         return None
     return json_result[0]
 
@@ -52,9 +52,15 @@ def get_songs_by_artist(token, artist_id):
     json_result = json.loads(result.content)["tracks"]
     return json_result
 
+artist = input("Artist: ")
 
 token = get_token()
-result = search_for_artist(token, "kanye")
+result = search_for_artist(token, artist)
 artist_id = result["id"]
+artist = result["name"]
 songs = get_songs_by_artist(token, artist_id)
-print(songs)
+
+
+print(artist)
+for idx, song in enumerate(songs):
+    print(f"{idx + 1}. {song['name']}")
