@@ -53,6 +53,13 @@ def get_songs_by_artist(token, artist_id):
     json_result = json.loads(result.content)["tracks"]
     return json_result
 
+def get_albums_by_artist(token, artist_id):
+    url = f"https://api.spotify.com/v1/artists/{artist_id}/albums"
+    headers = get_auth_header(token)
+    result = get(url, headers=headers)
+    json_result = json.loads(result.content)["items"]
+    return json_result
+
 token = get_token()
 
 while True:
@@ -65,6 +72,7 @@ while True:
     
     artist_id = result["id"]
     artist = result["name"]
+
     songs = get_songs_by_artist(token, artist_id)
 
     # print top 10 songs
@@ -73,3 +81,9 @@ while True:
         print(f"{idx + 1}. {song['name']}")
 
     print("")
+
+    albums = get_albums_by_artist(token, artist_id)
+
+    print(f"{artist} albums and singles")
+    for idx, album in enumerate(albums):
+        print(f"{idx + 1}. {album['name']}")
